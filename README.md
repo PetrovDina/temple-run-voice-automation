@@ -1,4 +1,4 @@
-# Temple run voice automation🎤🎮🔊
+# Temple Run Voice Automation🎤🎮🔊
 Soft Computing 2021/2022 Course Project - Voice controlled gameplay of games like Temple Run, Subway Surfers and more
 
 ## Authors
