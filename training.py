@@ -16,9 +16,12 @@ commands = ['up', 'down', 'left', 'right']
 # Hyper-parameters
 image_height = 32
 image_width = 32
-batch_size = 32  # probaj i 16, 64, sto je veci broj krace ce trenirati zato sto redje menja tezine ali vise memorije trosi
-num_classes = len(commands)
-epochs = 12
+batch_size = 32
+# sto je veci batch krace ce trenirati zato sto redje menja tezine ali vise memorije jer vise spektograma ima u memoriji
+# sto je manji, manje memorije trosi ali precesto azurira tezine pa dugooo traje
+# batch size je broj spektograma koje prolazi pre svakog azuriranja tezina u filterima
+# ono predavanje sto sam slala JAKO lepo objasnjava kako preveliki/premali batch size utice na treniranje
+epochs = 12  # koliko puta prolazi kroz CEO dataset
 
 test_ratio = 0.1
 validation_ratio = 0.2
