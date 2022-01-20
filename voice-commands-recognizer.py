@@ -8,6 +8,23 @@
 import time
 import speech_recognition as sr
 
+import librosa
+import librosa.display
+import matplotlib.pyplot as plt
+
+import numpy as np
+from PIL import Image
+
+from keras.models import load_model
+
+from pynput.keyboard import Key, Controller
+
+MODEL = load_model('test-1.h5')
+
+COMMANDS = ['up', 'down', 'left', 'right']
+
+CONTROLLER = Controller()
+
 
 # this is called from the background thread
 def callback(recognizer, audio):
@@ -17,6 +34,42 @@ def callback(recognizer, audio):
     try:
         print("CALLBACK")
         print("Google Speech Recognition thinks you said " + recognizer.recognize_google(audio))
+
+        # TODO -------------------------------- SPORO I KRITICNO -------------------------------------------------------------------
+        with open("microphone-results.wav", "wb") as f:
+            f.write(audio.get_wav_data())
+
+        sample, sample_rate = librosa.load('microphone-results.wav')
+
+        mel_spectrogram = librosa.feature.melspectrogram(sample, sr=sample_rate, n_fft=2048, n_mels=128)
+        log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
+
+        px = 1 / plt.rcParams['figure.dpi']  # pixel in inches
+        plt.figure(figsize=(42 * px, 42 * px))
+        plt.axis('off')
+        librosa.display.specshow(log_mel_spectrogram, sr=sample_rate)
+        plt.set_cmap('magma')
+        plt.savefig('microphone-results.png', bbox_inches='tight',
+                    transparent=True, pad_inches=0.0)
+        # ----------------------------------------------------------------------------------------------------------------------
+
+        image = np.array(Image.open('microphone-results.png'))
+        pred = MODEL.predict(np.array([image]))
+        detected_command = COMMANDS[np.argmax(pred, axis=1)[0]]
+        print(detected_command)
+        if detected_command == 'up':
+            CONTROLLER.press(Key.up)
+            return
+        if detected_command == 'down':
+            CONTROLLER.press(Key.down)
+            return
+        if detected_command == 'left':
+            CONTROLLER.press(Key.left)
+            return
+        if detected_command == 'right':
+            CONTROLLER.press(Key.right)
+            return
+
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
     except sr.RequestError as e:
