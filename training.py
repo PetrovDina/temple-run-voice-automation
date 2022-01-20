@@ -13,10 +13,20 @@ import seaborn as sns
 
 commands = ['up', 'down', 'left', 'right']
 
+# Hyper-parameters
+image_height = 32
+image_width = 32
+batch_size = 32  # probaj i 16, 64, sto je veci broj krace ce trenirati zato sto redje menja tezine ali vise memorije trosi
+num_classes = len(commands)
+epochs = 12
+
+test_ratio = 0.1
+validation_ratio = 0.2
+
 
 def load_data():
-    X = []
-    y = []
+    images = []
+    labels = []
 
     for i in range(len(commands)):
         command = commands[i]
@@ -26,12 +36,12 @@ def load_data():
 
             print(file_name)
             print(image.shape)
-            X.append(image)
-            y.append(i)
+            images.append(image)
+            labels.append(i)
 
-    X = np.array(X)
-    y = np.array(y)
-    return X, y
+    images = np.array(images)
+    labels = np.array(labels)
+    return images, labels
 
 
 def create_model(input_shape):
@@ -101,22 +111,23 @@ def plot_confusion_matrix(y_test, prediction):
 def prepare_datasets(test_size, validation_size):
 
     # load data
-    X, y = load_data()
-    X, y = shuffle(X, y, random_state=42)
+    images, labels = load_data()
+    images, labels = shuffle(images, labels, random_state=42)
 
     # create train, validation and test split
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
-    X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train, test_size=validation_size)
+    train_images, test_images, train_labels, test_labels = train_test_split(images, labels, test_size=test_size)
+    train_images, validation_images, train_labels, validation_labels = train_test_split(train_images, train_labels,
+                                                                                        test_size=validation_size)
 
-    return X_train, X_validation, X_test, y_train, y_validation, y_test
+    return train_images, validation_images, test_images, train_labels, validation_labels, test_labels
 
 
 def training():
     # get train, validation, test splits
-    X_train, X_validation, X_test, y_train, y_validation, y_test = prepare_datasets(0.1, 0.2)
+    train_images, validation_images, test_images, train_labels, validation_labels, test_labels = prepare_datasets(test_ratio, validation_ratio)
 
     # create network
-    input_shape = (32, 32, 4)
+    input_shape = (image_height, image_height, 4)
     model = create_model(input_shape)
 
     # compile model
@@ -128,18 +139,19 @@ def training():
     model.summary()
 
     # train model
-    history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation), batch_size=32, epochs=4)
+    history = model.fit(train_images, train_labels, validation_data=(validation_images, validation_labels),
+                        batch_size=batch_size,
+                        epochs=epochs)
 
     # plot accuracy/error for training and validation
     plot_history(history)
 
     # evaluate model on test set
-    test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
+    test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
     print('\nTest accuracy:', test_acc)
     model.save('test-1.h5')
 
 
 if __name__ == '__main__':
     print('Temple Run - Voice Automation')
-
     training()
