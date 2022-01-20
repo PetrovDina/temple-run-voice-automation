@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
 
 # ----------------------------------------------------------------------
 # Instaliranje PyAudio -> otvoriti cmd u rootu projekta i kucati "pip install PyAudio-0.2.11-cp37-cp37m-win_amd64.whl"
 # ----------------------------------------------------------------------
-
 
 # NOTE: this example requires PyAudio because it uses the Microphone class
 
@@ -14,7 +12,8 @@ import speech_recognition as sr
 # this is called from the background thread
 def callback(recognizer, audio):
     # received audio data, now we'll recognize it using Google Speech Recognition
-    # todo ovde mi pozivamo nasu metodu za kreiranje spektograma i prosledjujemo ga modelu na predikciju
+    # TODO pozvati našu metodu za generisanje spektograma od detektovanog zvuka
+    #  i proslediti ga istreniranom modelu na predikciju komande
     try:
         print("CALLBACK")
         print("Google Speech Recognition thinks you said " + recognizer.recognize_google(audio))
@@ -35,7 +34,8 @@ stop_listening = r.listen_in_background(m, callback, phrase_time_limit=3)
 # `stop_listening` is now a function that, when called, stops background listening
 
 # calling this function requests that the background listener stop listening
-#stop_listening(wait_for_stop=False) # Zakomentarisano: mi necemo da se zasustavi slušanje
+# stop_listening(wait_for_stop=False) # Zakomentarisano: mi necemo da se zaustavi slušanje
 
-# do some more unrelated things
-while True: time.sleep(0.1)  # we're not listening anymore, even though the background thread might still be running for a second or two while cleaning up and stopping
+# endless loop (because we don't want the main thread to end as it would also kill the listening thread)
+while True:
+    time.sleep(0.1)
