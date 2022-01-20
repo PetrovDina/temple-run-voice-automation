@@ -4,9 +4,11 @@ import matplotlib.pyplot as plt
 
 from glob import glob
 from keras.models import load_model
+from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from PIL import Image
+import seaborn as sns
 
 
 commands = ['up', 'down', 'left', 'right']
@@ -80,6 +82,18 @@ def plot_history(history):
     axs[1].set_xlabel("Epoch")
     axs[1].legend(loc="upper right")
     axs[1].set_title("Error eval")
+
+    plt.show()
+
+
+# TODO call this method after prediction on test set
+def plot_confusion_matrix(y_test, prediction):
+    fig, ax = plt.subplots(1, 1, figsize=(14, 7))
+    sns.heatmap(confusion_matrix(y_true=y_test, y_pred=prediction), ax=ax, xticklabels=commands, yticklabels=commands,
+                annot=True,
+                alpha=0.7, linewidths=2)
+    fig.text(s='Confusion Matrix', size=20, fontweight='bold',
+             fontname='monospace', y=0.92, x=0.28, alpha=0.8)
 
     plt.show()
 
