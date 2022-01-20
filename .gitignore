@@ -1,4 +1,7 @@
 venv
+speech-commands-audio/
+speech-commands-sgram/
+speech-commands-sgram-124x124/
 
 ## Python template
 # Byte-compiled / optimized / DLL files
