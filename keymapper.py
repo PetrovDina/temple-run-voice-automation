@@ -14,7 +14,7 @@ def keyboard_test():
 
     print("Switch to temple run window now by clicking on the game area!")
     time.sleep(3) # time to switch to temple run window
-    print("Starting ga me")
+    print("Starting game")
     controller.press(keyboard.Key.space)
 
     for x in range(10): # jump 10 times in 1 second intervals
