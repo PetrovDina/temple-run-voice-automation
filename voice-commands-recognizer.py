@@ -37,11 +37,11 @@ with m as source:
     r.adjust_for_ambient_noise(source)  # we only need to calibrate once, before we start listening
 
 # start listening in the background (note that we don't have to do this inside a `with` statement)
-stop_listening = r.listen_in_background(m, callback)
+stop_listening = r.listen_in_background(m, callback, phrase_time_limit=3)
 # `stop_listening` is now a function that, when called, stops background listening
 
 # do some unrelated computations for 5 seconds
-for _ in range(50): time.sleep(0.1)  # we're still listening even though the main thread is doing other things
+for _ in range(5000): time.sleep(1)  # we're still listening even though the main thread is doing other things
 
 # calling this function requests that the background listener stop listening
 #stop_listening(wait_for_stop=False) # OVO KAD SAM ZAKOMENTARISALA ONDA JE HTELO VISE PUTA ALI OOPET POSLE PAR RECENICA STANE
