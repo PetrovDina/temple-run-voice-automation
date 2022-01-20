@@ -1,15 +1,15 @@
 import numpy as np
 import tensorflow.keras as keras
 import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix
 import seaborn as sns
+from sklearn.metrics import confusion_matrix
 
-from training import prepare_datasets, commands, test_ratio, validation_ratio
+from training import prepare_datasets, COMMANDS, TEST_RATIO, VALIDATION_RATIO
 
 
 def plot_confusion_matrix(y_test, prediction):
     fig, ax = plt.subplots(1, 1, figsize=(14, 7))
-    sns.heatmap(confusion_matrix(y_true=y_test, y_pred=prediction), ax=ax, xticklabels=commands, yticklabels=commands,
+    sns.heatmap(confusion_matrix(y_true=y_test, y_pred=prediction), ax=ax, xticklabels=COMMANDS, yticklabels=COMMANDS,
                 annot=True,
                 alpha=0.7, linewidths=2, fmt='d')
     fig.text(s='Confusion Matrix', size=20, fontweight='bold',
@@ -22,7 +22,7 @@ def plot_confusion_matrix(y_test, prediction):
 def predict():
     # get train, validation, test splits
     train_images, validation_images, test_images, \
-        train_labels, validation_labels, test_labels = prepare_datasets(test_ratio, validation_ratio)
+        train_labels, validation_labels, test_labels = prepare_datasets(TEST_RATIO, VALIDATION_RATIO)
 
     model = keras.models.load_model('test-1.h5')
     prediction = model.predict(test_images)

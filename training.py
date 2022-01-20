@@ -1,39 +1,36 @@
 import numpy as np
 import tensorflow.keras as keras
 import matplotlib.pyplot as plt
-
 from glob import glob
-from keras.models import load_model
-from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from PIL import Image
-import seaborn as sns
 
-commands = ['up', 'down', 'left', 'right']
+
+DATASET_PATH_32_X_32 = 'speech-commands-sgram\\{}\\*.png'
+DATASET_PATH_124_X_124 = 'speech-commands-sgram-124x124\\{}\\*.png'
+
+COMMANDS = ['up', 'down', 'left', 'right']
 
 # Hyper-parameters
-image_height = 124
-image_width = 124
-batch_size = 32
-# veci batch -> krace ce trenirati zato sto redje menja tezine ali vise memorije trosi jer vise slika ima u memoriji
-# manji batch -> manje memorije trosi ali precesto azurira tezine pa dugooo traje
-# batch size je broj spektograma koje prolazi pre svakog azuriranja tezina u filterima
-# ono predavanje sto sam slala JAKO lepo objasnjava kako preveliki/premali batch size utice na treniranje
-epochs = 12  # koliko puta prolazi kroz CEO dataset
+IMAGE_HEIGHT = 32
+IMAGE_WIDTH = 32
+BATCH_SIZE = 32
+EPOCHS = 12  #
 
-test_ratio = 0.1
-validation_ratio = 0.2
+TEST_RATIO = 0.1
+VALIDATION_RATIO = 0.2
+
 
 
 def load_data():
     images = []
     labels = []
 
-    for i in range(len(commands)):
-        command = commands[i]
+    for i in range(len(COMMANDS)):
+        command = COMMANDS[i]
 
-        for file_name in glob('speech-commands-sgram-124x124\\{}\\*.png'.format(command)):
+        for file_name in glob(DATASET_PATH_124_X_124.format(command)):
             image = np.array(Image.open(file_name))
 
             images.append(image)
@@ -111,10 +108,10 @@ def prepare_datasets(test_size, validation_size):
 def training():
     # get train, validation, test splits
     train_images, validation_images, test_images, \
-        train_labels, validation_labels, test_labels = prepare_datasets(test_ratio, validation_ratio)
+        train_labels, validation_labels, test_labels = prepare_datasets(TEST_RATIO, VALIDATION_RATIO)
 
     # create network
-    input_shape = (image_height, image_height, 4)
+    input_shape = (IMAGE_HEIGHT, IMAGE_HEIGHT, 4)
     model = create_model(input_shape)
 
     # compile model
@@ -127,8 +124,8 @@ def training():
 
     # train model
     history = model.fit(train_images, train_labels, validation_data=(validation_images, validation_labels),
-                        batch_size=batch_size,
-                        epochs=epochs)
+                        batch_size=BATCH_SIZE,
+                        epochs=EPOCHS)
 
     # plot accuracy/error for training and validation
     plot_history(history)
@@ -140,5 +137,5 @@ def training():
 
 
 if __name__ == '__main__':
-    print('Temple Run - Voice Automation')
+    print('Temple Run - Voice Automation Training')
     training()
