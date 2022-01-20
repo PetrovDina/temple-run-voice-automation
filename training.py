@@ -10,7 +10,6 @@ from sklearn.utils import shuffle
 from PIL import Image
 import seaborn as sns
 
-
 commands = ['up', 'down', 'left', 'right']
 
 # Hyper-parameters
@@ -78,7 +77,6 @@ def create_model(input_shape):
 
 
 def plot_history(history):
-
     fig, axs = plt.subplots(2)
 
     # create accuracy sublpot
@@ -112,7 +110,6 @@ def plot_confusion_matrix(y_test, prediction):
 
 
 def prepare_datasets(test_size, validation_size):
-
     # load data
     images, labels = load_data()
     images, labels = shuffle(images, labels, random_state=42)
@@ -127,7 +124,8 @@ def prepare_datasets(test_size, validation_size):
 
 def training():
     # get train, validation, test splits
-    train_images, validation_images, test_images, train_labels, validation_labels, test_labels = prepare_datasets(test_ratio, validation_ratio)
+    train_images, validation_images, test_images, \
+        train_labels, validation_labels, test_labels = prepare_datasets(test_ratio, validation_ratio)
 
     # create network
     input_shape = (image_height, image_height, 4)
