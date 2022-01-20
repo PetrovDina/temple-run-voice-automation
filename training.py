@@ -10,17 +10,19 @@ from PIL import Image
 DATASET_PATH_32_X_32 = 'speech-commands-sgram\\{}\\*.png'
 DATASET_PATH_124_X_124 = 'speech-commands-sgram-124x124\\{}\\*.png'
 
-COMMANDS = ['up', 'down', 'left', 'right']
+SPECTOGRAM_DIMENSIONS = 124
+
 
 # Hyper-parameters
-IMAGE_HEIGHT = 32
-IMAGE_WIDTH = 32
+IMAGE_HEIGHT = SPECTOGRAM_DIMENSIONS
+IMAGE_WIDTH = SPECTOGRAM_DIMENSIONS
 BATCH_SIZE = 32
-EPOCHS = 12  #
+EPOCHS = 9  
 
 TEST_RATIO = 0.1
 VALIDATION_RATIO = 0.2
 
+COMMANDS = ['up', 'down', 'left', 'right']
 
 
 def load_data():
@@ -76,14 +78,14 @@ def plot_history(history):
 
     # create accuracy sublpot
     axs[0].plot(history.history["acc"], label="train accuracy")
-    axs[0].plot(history.history["val_acc"], label="test accuracy")
+    axs[0].plot(history.history["val_acc"], label="test accuracy")  # todo change label to validation accuracy
     axs[0].set_ylabel("Accuracy")
     axs[0].legend(loc="lower right")
     axs[0].set_title("Accuracy eval")
 
     # create error sublpot
     axs[1].plot(history.history["loss"], label="train error")
-    axs[1].plot(history.history["val_loss"], label="test error")
+    axs[1].plot(history.history["val_loss"], label="test error")  # todo change label to validation error
     axs[1].set_ylabel("Error")
     axs[1].set_xlabel("Epoch")
     axs[1].legend(loc="upper right")
