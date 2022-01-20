@@ -4,10 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
 
-from training import prepare_datasets
-
-test_ratio = 0.1
-validation_ratio = 0.2
+from training import prepare_datasets, commands, test_ratio, validation_ratio
 
 
 def plot_confusion_matrix(y_test, prediction):
