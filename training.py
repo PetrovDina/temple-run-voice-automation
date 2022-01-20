@@ -13,8 +13,8 @@ import seaborn as sns
 commands = ['up', 'down', 'left', 'right']
 
 # Hyper-parameters
-image_height = 32
-image_width = 32
+image_height = 124
+image_width = 124
 batch_size = 32
 # veci batch -> krace ce trenirati zato sto redje menja tezine ali vise memorije trosi jer vise slika ima u memoriji
 # manji batch -> manje memorije trosi ali precesto azurira tezine pa dugooo traje
@@ -33,7 +33,7 @@ def load_data():
     for i in range(len(commands)):
         command = commands[i]
 
-        for file_name in glob('speech-commands-sgram\\{}\\*.png'.format(command)):
+        for file_name in glob('speech-commands-sgram-124x124\\{}\\*.png'.format(command)):
             image = np.array(Image.open(file_name))
 
             print(file_name)
