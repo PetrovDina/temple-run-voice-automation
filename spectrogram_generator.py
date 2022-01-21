@@ -1,13 +1,47 @@
-from pathlib import Path
-
+import io
 import librosa
 import librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
+from pathlib import Path
 
 
-def generate_mic_input_spectrogram():
+def generate_mic_input_spectrogram(audio):
+
+    # Converting wav byte string to numpy array
+    numpy_array = np.frombuffer(audio.get_wav_data(), dtype=np.int16)
+
+    # Replacing the NAN values with zeros
+    new_array = np.ndarray(shape=numpy_array.shape)
+    for i in range(len(numpy_array)):
+        if str(numpy_array[i]) == "nan":
+            new_array[i] = 0;
+        else:
+            new_array[i] = numpy_array[i]
+
+    # Generating spectograms
+    mel_spectrogram = librosa.feature.melspectrogram(new_array, sr=audio.sample_rate, n_fft=2048, n_mels=128)
+    log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
+
+    px = 1 / plt.rcParams['figure.dpi']  # pixel in inches
+    plt.figure(figsize=(42 * px, 42 * px))
+    plt.axis('off')
+    librosa.display.specshow(log_mel_spectrogram, sr=audio.sample_rate)
+    plt.set_cmap('magma')
+
+    # Saving plot figure to buffer
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', transparent=True, pad_inches=0.0)
+    buf.seek(0)
+
+    # Converting to PIL.Image np array
+    image = np.array(Image.open(buf))
+    buf.close()
+    return image
+
+
+def generate_mic_input_spectrogram_from_file():
     sample, sample_rate = librosa.load('microphone-results.wav')
 
     mel_spectrogram = librosa.feature.melspectrogram(sample, sr=sample_rate, n_fft=2048, n_mels=128)

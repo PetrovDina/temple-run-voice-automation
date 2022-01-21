@@ -1,23 +1,19 @@
 
 # NOTE: this example requires PyAudio because it uses the Microphone class
-
 import time
-import speech_recognition as sr
 import numpy as np
+import speech_recognition as sr
 from predict import predict_voice_input
 from keymapper import run_command
-from spectrogram_generator import generate_mic_input_spectrogram_from_file
+from spectrogram_generator import generate_mic_input_spectrogram
 
 
 # this is called from the background thread
 def callback(recognizer, audio):
 
-        with open("microphone-results.wav", "wb") as f:
-            f.write(audio.get_wav_data())
-
-        spectrogram = generate_mic_input_spectrogram_from_file()
-        predicted_command = predict_voice_input(np.array([spectrogram]))
-        run_command(predicted_command)
+    image = generate_mic_input_spectrogram(audio)
+    predicted_command = predict_voice_input(np.array([image]))
+    run_command(predicted_command)
 
 
 print(" ======================== T E M P L E  R U N ========================")
