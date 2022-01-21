@@ -10,14 +10,14 @@ from PIL import Image
 DATASET_PATH_32_X_32 = 'speech-commands-sgram\\{}\\*.png'
 DATASET_PATH_124_X_124 = 'speech-commands-sgram-124x124\\{}\\*.png'
 
-SPECTOGRAM_DIMENSIONS = 124
+SPECTOGRAM_DIMENSIONS = 32
 
 
 # Hyper-parameters
 IMAGE_HEIGHT = SPECTOGRAM_DIMENSIONS
 IMAGE_WIDTH = SPECTOGRAM_DIMENSIONS
 BATCH_SIZE = 32
-EPOCHS = 9  
+EPOCHS = 20
 
 TEST_RATIO = 0.1
 VALIDATION_RATIO = 0.2
@@ -32,7 +32,7 @@ def load_data():
     for i in range(len(COMMANDS)):
         command = COMMANDS[i]
 
-        for file_name in glob(DATASET_PATH_124_X_124.format(command)):
+        for file_name in glob(DATASET_PATH_32_X_32.format(command)):
             image = np.array(Image.open(file_name))
 
             images.append(image)
@@ -135,7 +135,7 @@ def training():
     # evaluate model on test set
     test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
     print('\nTest accuracy:', test_acc)
-    model.save('test-1.h5')
+    model.save('test-model.h5')
 
 
 if __name__ == '__main__':

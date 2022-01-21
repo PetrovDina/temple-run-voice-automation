@@ -6,6 +6,8 @@ from sklearn.metrics import confusion_matrix
 
 from training import prepare_datasets, COMMANDS, TEST_RATIO, VALIDATION_RATIO
 
+model = keras.models.load_model('model-32x32-20epoch.h5')
+
 
 def plot_confusion_matrix(y_test, prediction):
     fig, ax = plt.subplots(1, 1, figsize=(14, 7))
@@ -18,13 +20,17 @@ def plot_confusion_matrix(y_test, prediction):
     plt.show()
 
 
+def predict_voice_input(audio_array):
+    prediction = model.predict(audio_array)
+    return np.argmax(prediction, axis=1)[0]
 
-def predict():
+
+def predict_test_set():
     # get train, validation, test splits
     train_images, validation_images, test_images, \
         train_labels, validation_labels, test_labels = prepare_datasets(TEST_RATIO, VALIDATION_RATIO)
 
-    model = keras.models.load_model('test-1.h5')
+
     prediction = model.predict(test_images)
     prediction = np.argmax(prediction, axis=1)
 
@@ -37,4 +43,4 @@ def predict():
 
 if __name__ == '__main__':
     print('Temple Run - Voice Automation - Prediction')
-    predict()
+    predict_test_set()

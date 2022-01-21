@@ -3,6 +3,26 @@ from pathlib import Path
 import librosa
 import librosa.display
 import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image
+
+
+def generate_mic_input_spectrogram():
+    sample, sample_rate = librosa.load('microphone-results.wav')
+
+    mel_spectrogram = librosa.feature.melspectrogram(sample, sr=sample_rate, n_fft=2048, n_mels=128)
+    log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
+
+    px = 1 / plt.rcParams['figure.dpi']  # pixel in inches
+    plt.figure(figsize=(42 * px, 42 * px))
+    plt.axis('off')
+    librosa.display.specshow(log_mel_spectrogram, sr=sample_rate)
+    plt.set_cmap('magma')
+    plt.savefig('microphone-results.png', bbox_inches='tight',
+                transparent=True, pad_inches=0.0)
+
+    image = np.array(Image.open('microphone-results.png'))
+    return image
 
 
 def generate_spectrograms(directory):
