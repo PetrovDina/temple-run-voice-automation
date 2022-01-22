@@ -20,7 +20,7 @@ def generate_mic_input_spectrogram(audio):
         else:
             new_array[i] = numpy_array[i]
 
-    # Generating spectograms
+    # Generating spectrograms
     mel_spectrogram = librosa.feature.melspectrogram(new_array, sr=audio.sample_rate, n_fft=2048, n_mels=128)
     log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
 
