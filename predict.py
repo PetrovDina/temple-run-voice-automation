@@ -22,7 +22,7 @@ def plot_confusion_matrix(y_test, prediction):
 
 def predict_voice_input(audio_array):
     prediction = model.predict(audio_array)
-    return np.argmax(prediction, axis=1)[0]
+    return np.argmax(prediction, axis=1)[0], np.max(prediction, axis=1)[0]
 
 
 def predict_test_set():
