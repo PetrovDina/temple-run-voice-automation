@@ -6,6 +6,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from PIL import Image
 
+from predict import plot_confusion_matrix
+import json
+
 
 DATASET_PATH_32_X_32 = 'speech-commands-sgram\\{}\\*.png'
 DATASET_PATH_124_X_124 = 'speech-commands-sgram-124x124\\{}\\*.png'
@@ -17,7 +20,7 @@ SPECTROGRAM_DIMENSIONS = 32
 IMAGE_HEIGHT = SPECTROGRAM_DIMENSIONS
 IMAGE_WIDTH = SPECTROGRAM_DIMENSIONS
 BATCH_SIZE = 32
-EPOCHS = 20
+EPOCHS = 30
 
 TEST_RATIO = 0.1
 VALIDATION_RATIO = 0.2
@@ -48,19 +51,19 @@ def create_model(input_shape):
     model = keras.Sequential()
 
     # 1st conv layer
-    model.add(keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=input_shape))
-    model.add(keras.layers.MaxPooling2D((3, 3), strides=(2, 2), padding='same'))
+    model.add(keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=keras.regularizers.l2(0.001)))
     model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.MaxPooling2D((3, 3), strides=(2, 2), padding='same'))
 
     # 2nd conv layer
-    model.add(keras.layers.Conv2D(32, (3, 3), activation='relu'))
-    model.add(keras.layers.MaxPooling2D((3, 3), strides=(2, 2), padding='same'))
+    model.add(keras.layers.Conv2D(32, (3, 3), activation='relu', kernel_regularizer=keras.regularizers.l2(0.001)))
     model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.MaxPooling2D((3, 3), strides=(2, 2), padding='same'))
 
     # 3rd conv layer
-    model.add(keras.layers.Conv2D(32, (2, 2), activation='relu'))
-    model.add(keras.layers.MaxPooling2D((2, 2), strides=(2, 2), padding='same'))
+    model.add(keras.layers.Conv2D(32, (2, 2), activation='relu', kernel_regularizer=keras.regularizers.l2(0.001)))
     model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.MaxPooling2D((2, 2), strides=(2, 2), padding='same'))
 
     # flatten output and feed it into dense layer
     model.add(keras.layers.Flatten())
@@ -78,14 +81,14 @@ def plot_history(history):
 
     # create accuracy sublpot
     axs[0].plot(history.history["acc"], label="train accuracy")
-    axs[0].plot(history.history["val_acc"], label="test accuracy")  # todo change label to validation accuracy
+    axs[0].plot(history.history["val_acc"], label="validation accuracy")
     axs[0].set_ylabel("Accuracy")
     axs[0].legend(loc="lower right")
     axs[0].set_title("Accuracy eval")
 
     # create error sublpot
     axs[1].plot(history.history["loss"], label="train error")
-    axs[1].plot(history.history["val_loss"], label="test error")  # todo change label to validation error
+    axs[1].plot(history.history["val_loss"], label="validation error")
     axs[1].set_ylabel("Error")
     axs[1].set_xlabel("Epoch")
     axs[1].legend(loc="upper right")
@@ -109,15 +112,14 @@ def prepare_datasets(test_size, validation_size):
 
 def training():
     # get train, validation, test splits
-    train_images, validation_images, test_images, \
-        train_labels, validation_labels, test_labels = prepare_datasets(TEST_RATIO, VALIDATION_RATIO)
+    train_images, validation_images, test_images, train_labels, validation_labels, test_labels = prepare_datasets(TEST_RATIO, VALIDATION_RATIO)
 
     # create network
     input_shape = (IMAGE_HEIGHT, IMAGE_HEIGHT, 4)
     model = create_model(input_shape)
 
     # compile model
-    optimiser = keras.optimizers.Adam(learning_rate=0.0005)
+    optimiser = keras.optimizers.Adam(learning_rate=0.0003)
     model.compile(optimizer=optimiser,
                   loss='sparse_categorical_crossentropy',
                   metrics=['acc'])
@@ -135,7 +137,16 @@ def training():
     # evaluate model on test set
     test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
     print('\nTest accuracy:', test_acc)
-    model.save('test-model.h5')
+
+    # plot confusion matrix
+    prediction = model.predict(test_images)
+    prediction = np.argmax(prediction, axis=1)
+    plot_confusion_matrix(test_labels, prediction)
+
+    # save history
+    json.dump(history, open('history.json', 'w'))
+
+    model.save('test-model-32x32-30-epochs.h5')
 
 
 if __name__ == '__main__':
