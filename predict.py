@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
 
-from training import prepare_datasets, COMMANDS, TEST_RATIO, VALIDATION_RATIO
+COMMANDS = ['up', 'down', 'left', 'right']
 
 model = keras.models.load_model('model-32x32-20epoch.h5')
 
@@ -24,12 +24,10 @@ def predict_voice_input(audio_array):
     prediction = model.predict(audio_array)
     return np.argmax(prediction, axis=1)[0], np.max(prediction, axis=1)[0]
 
-
+'''
 def predict_test_set():
     # get train, validation, test splits
-    train_images, validation_images, test_images, \
-        train_labels, validation_labels, test_labels = prepare_datasets(TEST_RATIO, VALIDATION_RATIO)
-
+    train_images, validation_images, test_images, train_labels, validation_labels, test_labels = prepare_datasets(TEST_RATIO, VALIDATION_RATIO)
 
     prediction = model.predict(test_images)
     prediction = np.argmax(prediction, axis=1)
@@ -44,3 +42,4 @@ def predict_test_set():
 if __name__ == '__main__':
     print('Temple Run - Voice Automation - Prediction')
     predict_test_set()
+'''
