@@ -18,7 +18,7 @@ def generate_mic_input_spectrogram(audio):
     new_array = np.ndarray(shape=numpy_array.shape)
     for i in range(len(numpy_array)):
         if str(numpy_array[i]) == "nan":
-            new_array[i] = 0;
+            new_array[i] = 0
         else:
             new_array[i] = numpy_array[i]
 
