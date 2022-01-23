@@ -20,7 +20,6 @@ def callback(recognizer, audio):
         pass
 
 
-
 if __name__ == '__main__':
     print(" ======================== T E M P L E  R U N ========================")
     print("Configuring microphone.. Please wait.")
@@ -29,7 +28,6 @@ if __name__ == '__main__':
 
     with m as source:
         r.adjust_for_ambient_noise(source)
-
 
     stop_listening = r.listen_in_background(m, callback, phrase_time_limit=2)
     print("Microphone listening... Start talking!")
