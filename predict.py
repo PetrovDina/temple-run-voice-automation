@@ -1,12 +1,9 @@
 import numpy as np
-import tensorflow.keras as keras
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
 
-from commands import COMMANDS
-
-model = keras.models.load_model('model-32x32-20epoch.h5')
+from common import COMMANDS, MODEL
 
 
 def plot_confusion_matrix(y_test, prediction):
@@ -21,7 +18,7 @@ def plot_confusion_matrix(y_test, prediction):
 
 
 def predict_voice_input(audio_array):
-    prediction = model.predict(audio_array)
+    prediction = MODEL.predict(audio_array)
     return np.argmax(prediction, axis=1)[0], np.max(prediction, axis=1)[0]
 
 '''
