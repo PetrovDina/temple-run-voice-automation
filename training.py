@@ -9,23 +9,19 @@ from PIL import Image
 from predict import plot_confusion_matrix
 import pandas as pd
 
+from commands import COMMANDS, DATASET_PATH_32_X_32
 
-DATASET_PATH_32_X_32 = 'speech-commands-sgram\\{}\\*.png'
-DATASET_PATH_124_X_124 = 'speech-commands-sgram-124x124\\{}\\*.png'
 
 SPECTROGRAM_DIMENSIONS = 32
-
 
 # Hyper-parameters
 IMAGE_HEIGHT = SPECTROGRAM_DIMENSIONS
 IMAGE_WIDTH = SPECTROGRAM_DIMENSIONS
 BATCH_SIZE = 32
-EPOCHS = 20
+EPOCHS = 1
 
 TEST_RATIO = 0.1
 VALIDATION_RATIO = 0.2
-
-COMMANDS = ['up', 'down', 'left', 'right']
 
 
 def load_data():
@@ -145,10 +141,10 @@ def training():
 
     # save history
     hist_df = pd.DataFrame(history.history)
-    with open('hist_json_file.json', mode='w') as f:
+    with open('hist_json_file_srb.json', mode='w') as f:
         hist_df.to_json(f)
 
-    model.save('test-model-32x32-30-epochs.h5')
+    model.save('model-srb.h5')
 
 
 if __name__ == '__main__':

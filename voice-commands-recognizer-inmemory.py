@@ -16,7 +16,6 @@ def callback(recognizer, audio):
         run_command(predicted_command)
 
 
-
 if __name__ == '__main__':
     print(" ======================== T E M P L E  R U N ========================")
     print("Configuring microphone.. Please wait.")

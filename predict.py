@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
 
-COMMANDS = ['up', 'down', 'left', 'right']
+from commands import COMMANDS
 
 model = keras.models.load_model('model-32x32-20epoch.h5')
 
