@@ -13,8 +13,8 @@ def generate_mic_input_spectrogram(audio):
     numpy_array = np.frombuffer(audio.get_wav_data(), dtype=np.int16) #float16
 
     # Replacing the NAN values with zeros
-    # new_array = np.nan_to_num(numpy_array)
-
+    new_array = np.nan_to_num(numpy_array).astype(np.float32)
+    '''
     new_array = np.ndarray(shape=numpy_array.shape)
     for i in range(len(numpy_array)):
         if str(numpy_array[i]) == "nan":
@@ -22,6 +22,9 @@ def generate_mic_input_spectrogram(audio):
         else:
             new_array[i] = numpy_array[i]
 
+    print(new_array)
+    print(new_array1)
+    '''
     # Generating spectrograms
     mel_spectrogram = librosa.feature.melspectrogram(new_array, sr=audio.sample_rate, n_fft=2048, n_mels=128)
     log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
