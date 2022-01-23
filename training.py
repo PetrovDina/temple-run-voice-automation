@@ -8,7 +8,7 @@ from sklearn.utils import shuffle
 from PIL import Image
 
 from predict import plot_confusion_matrix
-from common import COMMANDS, DATASET_PATH_32_X_32
+from common import COMMANDS, DATASET_PATH
 
 SPECTROGRAM_DIMENSIONS = 32
 
@@ -29,7 +29,7 @@ def load_data():
     for i in range(len(COMMANDS)):
         command = COMMANDS[i]
 
-        for file_name in glob(DATASET_PATH_32_X_32.format(command)):
+        for file_name in glob(DATASET_PATH.format(command)):
             image = np.array(Image.open(file_name))
 
             images.append(image)
