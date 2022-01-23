@@ -82,6 +82,7 @@ def generate_spectrograms(directory):
         plt.set_cmap('magma')
         plt.savefig('srb-sgram/{}/{}-{}.png'.format(command, id, command), bbox_inches='tight',
                     transparent=True, pad_inches=0.0)
+        plt.close()
         id += 1
 
 
