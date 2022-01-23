@@ -10,10 +10,15 @@ from spectrogram_generator import generate_mic_input_spectrogram
 
 # this is called from the background thread
 def callback(recognizer, audio):
+    try:
+        #recognizer.recognize_google(audio)
+        image = generate_mic_input_spectrogram(audio)
+        predicted_command, percentage = predict_voice_input(np.array([image]))
+        if percentage > 0.8:
+            run_command(predicted_command)
+    except sr.UnknownValueError:
+        pass
 
-    image = generate_mic_input_spectrogram(audio)
-    predicted_command = predict_voice_input(np.array([image]))
-    run_command(predicted_command)
 
 
 if __name__ == '__main__':
@@ -24,6 +29,7 @@ if __name__ == '__main__':
 
     with m as source:
         r.adjust_for_ambient_noise(source)
+
 
     stop_listening = r.listen_in_background(m, callback, phrase_time_limit=2)
     print("Microphone listening... Start talking!")

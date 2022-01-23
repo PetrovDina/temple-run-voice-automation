@@ -29,6 +29,7 @@ def generate_mic_input_spectrogram(audio):
     buf = io.BytesIO()
     plt.savefig(buf, format='png', bbox_inches='tight', transparent=True, pad_inches=0.0)
     buf.seek(0)
+    plt.close()
 
     # Converting to PIL.Image np array
     image = np.array(Image.open(buf))
