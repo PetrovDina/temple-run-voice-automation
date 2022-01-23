@@ -12,5 +12,5 @@ if MODE == "SRB":
 elif MODE == "ENG":
     COMMANDS = ['up', 'down', 'left', 'right']
     DATASET_PATH_32_X_32 = 'speech-commands-sgram\\{}\\*.png'
-    MODEL = keras.models.load_model('model-32x32-20epoch.h5')
+    MODEL = keras.models.load_model('model-eng-32x32-20epochs.h5')
 
