@@ -1,5 +1,5 @@
 from pynput.keyboard import Key, Controller
-from commands import COMMANDS
+from common import COMMANDS
 
 KEYS = [Key.up, Key.down, Key.left, Key.right]
 CONTROLLER = Controller()
