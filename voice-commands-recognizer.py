@@ -16,8 +16,9 @@ def callback(recognizer, audio):
             f.write(audio.get_wav_data())
 
         spectrogram = generate_mic_input_spectrogram_from_file()
-        predicted_command = predict_voice_input(np.array([spectrogram]))
-        run_command(predicted_command)
+        predicted_command, percent = predict_voice_input(np.array([spectrogram]))
+        if percent > 0.8:
+            run_command(predicted_command)
 
 
 if __name__ == '__main__':

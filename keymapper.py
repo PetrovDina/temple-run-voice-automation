@@ -8,7 +8,7 @@ CONTROLLER = Controller()
 def run_command(command_index):
     CONTROLLER.press(KEYS[command_index])
     CONTROLLER.release(KEYS[command_index])
-    print(COMMANDS[command_index])
+    print("pressing: " + COMMANDS[command_index])
 
 
 

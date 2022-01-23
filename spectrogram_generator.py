@@ -10,10 +10,17 @@ from pathlib import Path
 def generate_mic_input_spectrogram(audio):
 
     # Converting wav byte string to numpy array
-    numpy_array = np.frombuffer(audio.get_wav_data(), dtype=np.float16)
+    numpy_array = np.frombuffer(audio.get_wav_data(), dtype=np.int16) #float16
 
     # Replacing the NAN values with zeros
-    new_array = np.nan_to_num(numpy_array)
+    # new_array = np.nan_to_num(numpy_array)
+
+    new_array = np.ndarray(shape=numpy_array.shape)
+    for i in range(len(numpy_array)):
+        if str(numpy_array[i]) == "nan":
+            new_array[i] = 0;
+        else:
+            new_array[i] = numpy_array[i]
 
     # Generating spectrograms
     mel_spectrogram = librosa.feature.melspectrogram(new_array, sr=audio.sample_rate, n_fft=2048, n_mels=128)
