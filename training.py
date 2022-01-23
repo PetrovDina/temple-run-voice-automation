@@ -51,7 +51,7 @@ def create_model(input_shape):
     model = keras.Sequential()
 
     # 1st conv layer
-    model.add(keras.layers.Conv2D(64, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=keras.regularizers.l2(0.001)))
+    model.add(keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=input_shape, kernel_regularizer=keras.regularizers.l2(0.001)))
     model.add(keras.layers.BatchNormalization())
     model.add(keras.layers.MaxPooling2D((3, 3), strides=(2, 2), padding='same'))
 
