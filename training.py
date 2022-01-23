@@ -7,7 +7,7 @@ from sklearn.utils import shuffle
 from PIL import Image
 
 from predict import plot_confusion_matrix
-import json
+import pandas as pd
 
 
 DATASET_PATH_32_X_32 = 'speech-commands-sgram\\{}\\*.png'
@@ -20,7 +20,7 @@ SPECTROGRAM_DIMENSIONS = 32
 IMAGE_HEIGHT = SPECTROGRAM_DIMENSIONS
 IMAGE_WIDTH = SPECTROGRAM_DIMENSIONS
 BATCH_SIZE = 32
-EPOCHS = 30
+EPOCHS = 20
 
 TEST_RATIO = 0.1
 VALIDATION_RATIO = 0.2
@@ -119,7 +119,7 @@ def training():
     model = create_model(input_shape)
 
     # compile model
-    optimiser = keras.optimizers.Adam(learning_rate=0.0003)
+    optimiser = keras.optimizers.Adam(learning_rate=0.0005)
     model.compile(optimizer=optimiser,
                   loss='sparse_categorical_crossentropy',
                   metrics=['acc'])
@@ -144,7 +144,9 @@ def training():
     plot_confusion_matrix(test_labels, prediction)
 
     # save history
-    json.dump(history, open('history.json', 'w'))
+    hist_df = pd.DataFrame(history.history)
+    with open('hist_json_file.json', mode='w') as f:
+        hist_df.to_json(f)
 
     model.save('test-model-32x32-30-epochs.h5')
 
