@@ -10,7 +10,6 @@ from PIL import Image
 from predict import plot_confusion_matrix
 from common import COMMANDS, DATASET_PATH_32_X_32
 
-
 SPECTROGRAM_DIMENSIONS = 32
 
 # Hyper-parameters
