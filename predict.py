@@ -20,23 +20,3 @@ def plot_confusion_matrix(y_test, prediction):
 def predict_voice_input(audio_array):
     prediction = MODEL.predict(audio_array)
     return np.argmax(prediction, axis=1)[0], np.max(prediction, axis=1)[0]
-
-'''
-def predict_test_set():
-    # get train, validation, test splits
-    train_images, validation_images, test_images, train_labels, validation_labels, test_labels = prepare_datasets(TEST_RATIO, VALIDATION_RATIO)
-
-    prediction = model.predict(test_images)
-    prediction = np.argmax(prediction, axis=1)
-
-    score = model.evaluate(test_images, test_labels, verbose=0)
-    print('Test loss:', score[0])
-    print('Test accuracy:', score[1])
-
-    plot_confusion_matrix(test_labels, prediction)
-
-
-if __name__ == '__main__':
-    print('Temple Run - Voice Automation - Prediction')
-    predict_test_set()
-'''

@@ -143,10 +143,10 @@ def training():
 
     # save history
     hist_df = pd.DataFrame(history.history)
+    hist_df['test_acc'] = test_acc
+    hist_df['test_loss'] = test_loss
     with open('hist_json_file_srb.json', mode='w') as f:
         hist_df.to_json(f)
-
-
 
 
 if __name__ == '__main__':

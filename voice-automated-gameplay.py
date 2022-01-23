@@ -1,4 +1,3 @@
-
 # NOTE: this example requires PyAudio because it uses the Microphone class
 import time
 import numpy as np
