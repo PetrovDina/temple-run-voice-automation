@@ -76,17 +76,17 @@ def generate_spectrograms(directory):
         log_mel_spectrogram = librosa.power_to_db(mel_spectrogram)
 
         px = 1 / plt.rcParams['figure.dpi']  # pixel in inches
-        plt.figure(figsize=(161*px, 162*px))
+        plt.figure(figsize=(42*px, 42*px))
         plt.axis('off')
         librosa.display.specshow(log_mel_spectrogram, sr=sr)
         plt.set_cmap('magma')
-        plt.savefig('speech-commands-sgram-124x124/{}/{}-{}.png'.format(command, id, command), bbox_inches='tight',
+        plt.savefig('srb-sgram/{}/{}-{}.png'.format(command, id, command), bbox_inches='tight',
                     transparent=True, pad_inches=0.0)
         id += 1
 
 
 if __name__ == '__main__':
-    generate_spectrograms('speech-commands-audio/up')
-    generate_spectrograms('speech-commands-audio/down')
-    generate_spectrograms('speech-commands-audio/left')
-    generate_spectrograms('speech-commands-audio/right')
+    generate_spectrograms('srb-audio/skoci')
+    generate_spectrograms('srb-audio/dole')
+    generate_spectrograms('srb-audio/levo')
+    generate_spectrograms('srb-audio/desno')
