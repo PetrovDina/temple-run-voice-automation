@@ -1,14 +1,13 @@
 import numpy as np
 import tensorflow.keras as keras
 import matplotlib.pyplot as plt
+import pandas as pd
 from glob import glob
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from PIL import Image
 
 from predict import plot_confusion_matrix
-import pandas as pd
-
 from commands import COMMANDS, DATASET_PATH_32_X_32
 
 
@@ -18,7 +17,7 @@ SPECTROGRAM_DIMENSIONS = 32
 IMAGE_HEIGHT = SPECTROGRAM_DIMENSIONS
 IMAGE_WIDTH = SPECTROGRAM_DIMENSIONS
 BATCH_SIZE = 32
-EPOCHS = 1
+EPOCHS = 20
 
 TEST_RATIO = 0.1
 VALIDATION_RATIO = 0.2
@@ -108,7 +107,8 @@ def prepare_datasets(test_size, validation_size):
 
 def training():
     # get train, validation, test splits
-    train_images, validation_images, test_images, train_labels, validation_labels, test_labels = prepare_datasets(TEST_RATIO, VALIDATION_RATIO)
+    train_images, validation_images, test_images,\
+        train_labels, validation_labels, test_labels = prepare_datasets(TEST_RATIO, VALIDATION_RATIO)
 
     # create network
     input_shape = (IMAGE_HEIGHT, IMAGE_HEIGHT, 4)
