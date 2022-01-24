@@ -5,3 +5,6 @@ Soft Computing 2021/2022 Course Project - Voice controlled gameplay of games lik
 - Anastasija Đurić SW-48-2018 
 - Dina Petrov SW-52-2018
 
+## Results
+![confusion-matrix](results/confusion-matrix-30-epochs-srb.jpg)
+
