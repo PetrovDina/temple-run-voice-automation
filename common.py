@@ -7,7 +7,7 @@ MODE = "SRB"  # "SRB" for serbian language, "ENG" for english language
 if MODE == "SRB":
     COMMANDS = ['skoci', 'dole', 'levo', 'desno']
     DATASET_PATH = 'srb-sgram\\{}\\*.png'
-    MODEL = keras.models.load_model('models\\model-srb-30epochs.h5')
+    MODEL = keras.models.load_model('models\\model-srb-fulldataset-acc-979.h5')
 
 elif MODE == "ENG":
     COMMANDS = ['up', 'down', 'left', 'right']

@@ -114,7 +114,7 @@ def training():
     model = create_model(input_shape)
 
     # compile model
-    optimiser = keras.optimizers.Adam(learning_rate=0.0005)
+    optimiser = keras.optimizers.Adam(learning_rate=0.01)
     model.compile(optimizer=optimiser,
                   loss='sparse_categorical_crossentropy',
                   metrics=['acc'])
