@@ -6,5 +6,5 @@ Soft Computing 2021/2022 Course Project - Voice controlled gameplay of games lik
 - Dina Petrov SW-52-2018
 
 ## Results
-![confusion-matrix](results/confusion-matrix-30-epochs-srb.jpg)
+![confusion-matrix](results/srb-30epochs-matrix.png)
 
