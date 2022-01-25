@@ -5,6 +5,11 @@ Soft Computing 2021/2022 Course Project - Voice controlled gameplay of games lik
 - Anastasija Đurić SW-48-2018 
 - Dina Petrov SW-52-2018
 
+## How to run
+ - Install necessary packages found in requirements.txt
+ - Set MODE in common.py: ENG for commands in english or SRB for commands in serbian
+ - Run the voice-automated-gameplay.py script
+
 ## Poster
 ![poster](poster/poster.png)
 
