@@ -6,7 +6,7 @@ Soft Computing 2021/2022 Course Project - Voice controlled gameplay of games lik
 - Dina Petrov SW-52-2018
 
 ## Application flow
-![activity-diagram-visual.png](activity-diagram-visual.png)
+![activity-diagram-visual](diagrams/activity-diagram-visual.png)
 
 
 ## Results
