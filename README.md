@@ -12,3 +12,6 @@ Soft Computing 2021/2022 Course Project - Voice controlled gameplay of games lik
 ## Results
 ![confusion-matrix](results/srb-30epochs-matrix.png)
 
+## Poster
+![poster](poster/poster.png)
+
