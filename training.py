@@ -16,7 +16,7 @@ SPECTROGRAM_DIMENSIONS = 32
 IMAGE_HEIGHT = SPECTROGRAM_DIMENSIONS
 IMAGE_WIDTH = SPECTROGRAM_DIMENSIONS
 BATCH_SIZE = 32
-EPOCHS = 30
+EPOCHS = 20
 
 TEST_RATIO = 0.1
 VALIDATION_RATIO = 0.2
@@ -114,7 +114,7 @@ def training():
     model = create_model(input_shape)
 
     # compile model
-    optimiser = keras.optimizers.Adam(learning_rate=0.01)
+    optimiser = keras.optimizers.Adam(learning_rate=0.0005)
     model.compile(optimizer=optimiser,
                   loss='sparse_categorical_crossentropy',
                   metrics=['acc'])

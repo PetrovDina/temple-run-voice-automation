@@ -5,14 +5,19 @@ import speech_recognition as sr
 from predict import predict_voice_input
 from keymapper import run_command
 from spectrogram_generator import generate_mic_input_spectrogram
+from common import MODE
 
 
 # this is called from the background thread
 def callback(recognizer, audio):
+    # start = time.time()
     image = generate_mic_input_spectrogram(audio)
     predicted_command, percentage = predict_voice_input(np.array([image]))
     if percentage > 0.8:
         run_command(predicted_command)
+        # end = time.time()
+        # print("elapsed: " + str(end - start))
+
 
 
 if __name__ == '__main__':
@@ -24,8 +29,8 @@ if __name__ == '__main__':
     with m as source:
         r.adjust_for_ambient_noise(source)
 
-    stop_listening = r.listen_in_background(m, callback, phrase_time_limit=2)
-    print("Microphone listening... Start talking!")
+    stop_listening = r.listen_in_background(m, callback, phrase_time_limit=0.7)
+    print("Microphone listening... Start talking in " + MODE + "!")
 
     # calling this function requests that the background listener stop listening
     # stop_listening(wait_for_stop=False) # Commenting this out because we don't want listening to stop
