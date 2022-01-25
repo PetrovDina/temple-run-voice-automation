@@ -9,7 +9,7 @@ Soft Computing 2021/2022 Course Project - Voice controlled gameplay of games lik
 ![activity-diagram-visual](diagrams/activity-diagram-visual.png)
 
 
-## Results
+## Test set confusion matrix - SRB dataset
 ![confusion-matrix](results/srb-30epochs-matrix.png)
 
 ## Poster
