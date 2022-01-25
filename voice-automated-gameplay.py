@@ -19,7 +19,6 @@ def callback(recognizer, audio):
         # print("elapsed: " + str(end - start))
 
 
-
 if __name__ == '__main__':
     print(" ======================== T E M P L E  R U N ========================")
     print("Configuring microphone.. Please wait.")
